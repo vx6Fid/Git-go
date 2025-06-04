@@ -1,0 +1,6 @@
+# Go build files
+/bin/
+/pkg/
+*.exe
+*.test
+*.out
