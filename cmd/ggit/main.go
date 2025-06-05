@@ -22,6 +22,8 @@ func main(){
 		catFileCmd(os.Args[2:])
 	case "write-tree":
     writeTreeCmd()
+	case "read-tree":
+    readTreeCmd(os.Args[2:])
 	case "commit":
     commitCmd(os.Args[2:])
 	default:
