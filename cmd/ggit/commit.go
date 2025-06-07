@@ -1,9 +1,10 @@
-// cmd/ugit/commit.go
 package main
 
 import (
     "fmt"
+		"strings"
 
+    refs "github.com/vx6fid/git-go/internal/ref"
     "github.com/vx6fid/git-go/internal/object"
 )
 
@@ -13,7 +14,7 @@ func commitCmd(args []string) {
         return
     }
 
-    message := args[1]
+		message := strings.Join(args[1:], " ")
     author := "Achal <achal@example.com>" // hardcoded, later load from config
 
     sha, err := object.WriteCommit(message, author, nil)
@@ -22,6 +23,13 @@ func commitCmd(args []string) {
         return
     }
 
+		refPath, isSymbolic, _ := refs.HeadTarget()
+		if isSymbolic {
+				refs.WriteRef(refPath, sha)
+		} else {
+				refs.UpdateHEAD(sha)
+		}
     fmt.Println(sha)
+		fmt.Printf("HEAD target: %s (symbolic: %v)\n", refPath, isSymbolic)
 }
 
